@@ -1,1 +1,2 @@
-#Cpp project setup with Cmake build system and Gtest test suite
+#Tedit
+terminal based text editor in c++
