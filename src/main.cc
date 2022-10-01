@@ -2,6 +2,7 @@
 #include<fstream>
 #include<sstream>
 #include<string>
+#include<string_view>
 #include<exception>
 
 
@@ -18,18 +19,18 @@ class EditorException:std::exception{
         std::string message;
 };
 
-
-int main(){
+void init(){
     initscr();			/* Start curses mode 		  */
     cbreak();
     keypad(stdscr, TRUE);
     noecho();
     scrollok(stdscr,true);
+}
 
+void display_file_content(const char* filepath){
     std::string line;
-    const std::string path="/home/toufik/src/tedit/src/main.cc";
     std::stringstream out_string;
-    std::ifstream myfile (path);
+    std::ifstream myfile (filepath);
 
     if (myfile.is_open())
     {
@@ -43,6 +44,12 @@ int main(){
     else{
         printw("unable to open file");
     }
+}
+
+int main(){
+    init();
+
+    display_file_content("/home/toufik/src/tedit/src/main.cc");
 
     refresh();			/* Print it on to the real screen */
     getch();			/* Wait for user input */
