@@ -48,11 +48,35 @@ void display_file_content(const char* filepath){
 
 int main(){
     init();
+    const std::string out="you typed ";
+    int c,xc,yc;
 
-    display_file_content("/home/toufik/src/tedit/src/main.cc");
-
-    refresh();			/* Print it on to the real screen */
-    getch();			/* Wait for user input */
-    endwin();			/* End curses mode		  */
-    return 0; 
+    //display_file_content("/home/toufik/src/tedit/src/main.cc");
+    while (1) {
+        getyx(stdscr,yc,xc);
+        c=getch();
+        switch(c){
+            case KEY_RIGHT:
+                xc++;
+                move(yc,xc);
+                break;
+            case KEY_LEFT:
+                xc--;
+                move(yc,xc);
+                break;
+            case KEY_UP:
+                yc--;
+                move(yc,xc);
+                break;
+            case KEY_DOWN:
+                yc++;
+                move(yc,xc);
+                break;
+            case 'q': 
+            default:
+                refresh();			/* Print it on to the real screen */
+                endwin();			/* End curses mode		  */
+                return 0; 
+        };
+    }
 }
