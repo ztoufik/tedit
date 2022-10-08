@@ -1,9 +1,16 @@
+#include<memory>
+
+
 #include<curses.h>
 
 
 
 #include "Tab.h"
 
+Tab::Tab(const std::string &filepath)  {
+      Tab();
+      buf=std::make_shared<Buf>(filepath);
+  }
 void Tab::init(){
     initscr();			/* Start curses mode 		  */
     cbreak();
@@ -13,6 +20,7 @@ void Tab::init(){
 }
 
 void Tab::loop(){
+    printw(buf->get_content().c_str());
     int c,xc,yc;
     while (1) {
         getyx(stdscr,yc,xc);
