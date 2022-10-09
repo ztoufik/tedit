@@ -20,12 +20,17 @@ void Tab::init(){
 }
 
 void Tab::loop(){
-    printw(buf->get_content().c_str());
+    for(const auto &e:buf->get_content()){
+        addstr((e+'\n').c_str());
+    }
     int c,xc,yc;
     while (1) {
         getyx(stdscr,yc,xc);
         c=getch();
         switch(c){
+            case 'b':
+                scrl(1);
+                break;
             case KEY_RIGHT:
                 xc++;
                 move(yc,xc);

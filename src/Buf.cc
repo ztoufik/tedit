@@ -1,5 +1,5 @@
 #include<fstream>
-#include<sstream>
+#include<vector>
 #include<string>
 
 #include "TeditException.h"
@@ -11,7 +11,9 @@ Buf::Buf(const std::string& filepath):filepath(filepath){
     std::ifstream myfile (filepath);
     if (myfile.is_open())
     {
-        content<<myfile.rdbuf();
+        while(std::getline(myfile,line)){
+            content.push_back(std::forward<std::string>(line));
+        }
         myfile.close();
     }
     else{
@@ -19,6 +21,6 @@ Buf::Buf(const std::string& filepath):filepath(filepath){
     }
 }
 
-std::string Buf::get_content() const{
-    return content.str();
+std::vector<std::string>& Buf::get_content() {
+    return content;
 }

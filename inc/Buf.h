@@ -1,13 +1,13 @@
 #ifndef __BUFFER__
 #define __BUFFER__
 
-#include<sstream>
 #include<string>
+#include<vector>
 
 class Buf {
 private:
   std::string filepath;
-  std::ostringstream content;
+  std::vector<std::string> content;
 
 public:
   Buf() = default;
@@ -16,7 +16,7 @@ public:
   Buf(Buf &&) = delete;
   Buf operator=(const Buf &) = delete;
   Buf operator=(Buf &&) = delete;
-  std::string get_content() const;
+  std::vector<std::string>& get_content();
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include"Tab.h"
 
 int main(){
-    Tab tab("/home/toufik/src/tedit/src/main.cc");
+    Tab tab("/home/toufik/src/tedit/test.txt");
     tab.loop();
     return 0;
 }
