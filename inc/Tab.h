@@ -12,7 +12,7 @@ public:
   struct Cursor {
     int x, y;
   };
-  Tab() : c{0, 0} { init(); }
+  Tab() ;
   Tab(const std::string &filepath);
   Tab(const Tab &) = delete;
   Tab(Tab &&) = delete;
@@ -26,6 +26,9 @@ public:
 private:
   std::shared_ptr<Buf> buf;
   Cursor c;
+  int height,width,slideIndex;
+
+  void tab_scroll(int );
 };
 
 #endif
