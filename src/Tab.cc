@@ -27,29 +27,40 @@ void Tab::init(){
 }
 
 void Tab::tab_scroll(int shift){
-    slideIndex+=shift;
     auto& lines=buf->get_content();
-    if(slideIndex>=0){
-        clear();
-        refresh();
-        addstr("\ntest\n");
-        for(int i=0;i<height && (slideIndex+i)<lines.size();i++){
-            addstr(lines[slideIndex+i].c_str());
-            addstr("\n");
-        }
-    }
-    else{
+    int linesCount=lines.size();
+    slideIndex+=shift;
+    int remainedLines=linesCount-slideIndex;
+    if(slideIndex<0){
         slideIndex=0;
+        return;
+    }
+    if(remainedLines<height){
+        slideIndex-=shift;
+        return;
+    }
+
+    clear();
+    refresh();
+    for(int i=0;i<height && (slideIndex+i)<linesCount;i++){
+        if(i==height-1){
+            addstr((lines[slideIndex+i]).c_str());
+        }
+        else{
+            addstr((lines[slideIndex+i]+"\n").c_str());
+        }
     }
 }
 
 void Tab::loop(){
     auto& lines=buf->get_content();
     for(int i=0;i<height;i++){
-        if(i==height-1)
-            addstr((lines[i]).c_str());
-        else
-            addstr((lines[i]+'\n').c_str());
+            if(i==height-1){
+                addstr((lines[i]).c_str());
+            }
+            else{
+                addstr((lines[i]+"\n").c_str());
+            }
     }
     int c,xc,yc;
     while (1) {
@@ -58,6 +69,9 @@ void Tab::loop(){
         switch(c){
             case 'b':
                 tab_scroll(1);
+                break;
+            case 'c':
+                tab_scroll(-1);
                 break;
             case KEY_RIGHT:
                 xc++;
