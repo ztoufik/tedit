@@ -2,6 +2,7 @@
 #define _WIN_
 
 #include<memory>
+#include<map>
 
 #include<curses.h>
 
@@ -9,9 +10,19 @@
 
 class Tab {
 public:
-  struct Cursor {
-    int x, y;
-  };
+    struct Cursor {
+        private:
+            std::pair<int,int> xy;
+        public:
+            Cursor(int,int);
+            Cursor(const Cursor &) = delete;
+            Cursor(Cursor &&) = delete;
+            Cursor operator=(const Cursor &) = delete;
+            Cursor operator=(Cursor &&) = delete;
+            void setCursor(int,int);
+            void reset();
+            const std::pair<int,int>& getCursor() const ;
+    };
   Tab() ;
   Tab(const std::string &filepath);
   Tab(const Tab &) = delete;
@@ -28,7 +39,10 @@ private:
   Cursor c;
   int height,width,slideIndex;
 
-  void tab_scroll(int );
+  void ver_scroll(int );
+  void reset( );
+  void horz_scroll(int );
+  void draw_slide();
 };
 
 #endif

@@ -19,6 +19,6 @@ set(CMAKE_CXX_STANDARD 17)
 # add the library so it can be built
 #add_subdirectory(MyLib)
 add_subdirectory(src)
-add_subdirectory(test)
+#add_subdirectory(test)
 
 # we can optional based on condition build of MyLib

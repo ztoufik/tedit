@@ -1,17 +1,35 @@
 #include<iostream>
 #include<memory>
+#include<map>
 
 
 #include<curses.h>
 
 
 
-#include "Tab.h"
+#include "../inc/Tab.h"
 
-Tab::Tab() : c{0, 0} {
+
+Tab::Cursor::Cursor(int x,int y):xy(x,y){ }
+
+void Tab::Cursor::setCursor(int x,int y){
+    xy.first=x;
+    xy.second=y;
+    move(y,x);
+}
+
+void Tab::Cursor::reset(){
+    const auto& xy=getCursor();
+    setCursor(xy.first,xy.second);
+}
+const std::pair<int,int>& Tab::Cursor::getCursor() const {
+    return xy;
+}
+
+Tab::Tab() : c(0, 0) {
     init(); 
     getmaxyx(stdscr,height,width);
-    slideIndex=1;
+    slideIndex=0;
 }
 
 Tab::Tab(const std::string &filepath):Tab() {
@@ -26,22 +44,15 @@ void Tab::init(){
     scrollok(stdscr,true);
 }
 
-void Tab::tab_scroll(int shift){
-    auto& lines=buf->get_content();
-    int linesCount=lines.size();
-    slideIndex+=shift;
-    int remainedLines=linesCount-slideIndex;
-    if(slideIndex<0){
-        slideIndex=0;
-        return;
-    }
-    if(remainedLines<height){
-        slideIndex-=shift;
-        return;
-    }
-
+void Tab::reset(){
     clear();
     refresh();
+}
+
+void Tab::draw_slide(){
+    reset();
+    auto& lines=buf->get_content();
+    int linesCount=lines.size();
     for(int i=0;i<height && (slideIndex+i)<linesCount;i++){
         if(i==height-1){
             addstr((lines[slideIndex+i]).c_str());
@@ -50,44 +61,62 @@ void Tab::tab_scroll(int shift){
             addstr((lines[slideIndex+i]+"\n").c_str());
         }
     }
+    c.reset();
+}
+
+void Tab::horz_scroll(int shift){
+
+}
+void Tab::ver_scroll(int shift){
+    int linesCount=buf->get_content().size();
+    int remainedLines=linesCount-slideIndex;
+
+    if(remainedLines<height && shift>0){
+        return;
+    }
+
+    if(slideIndex<=0 && shift < 0){
+        slideIndex=0;
+        return;
+    }
+    slideIndex+=shift;
+    draw_slide();
 }
 
 void Tab::loop(){
-    auto& lines=buf->get_content();
-    for(int i=0;i<height;i++){
-            if(i==height-1){
-                addstr((lines[i]).c_str());
-            }
-            else{
-                addstr((lines[i]+"\n").c_str());
-            }
-    }
-    int c,xc,yc;
+    draw_slide();
+    int c;
     while (1) {
-        getyx(stdscr,yc,xc);
+        const auto& xy=this->c.getCursor();
         c=getch();
         switch(c){
             case 'b':
-                tab_scroll(1);
+                ver_scroll(1);
                 break;
             case 'c':
-                tab_scroll(-1);
+                ver_scroll(-1);
                 break;
             case KEY_RIGHT:
-                xc++;
-                move(yc,xc);
+                this->c.setCursor(xy.first+1,xy.second);
                 break;
             case KEY_LEFT:
-                xc--;
-                move(yc,xc);
+                this->c.setCursor(xy.first-1,xy.second);
                 break;
             case KEY_UP:
-                yc--;
-                move(yc,xc);
+                if(xy.second==0){
+                    ver_scroll(-1);
+                }
+                else{
+                    this->c.setCursor(xy.first,xy.second-1);
+                }
                 break;
             case KEY_DOWN:
-                yc++;
-                move(yc,xc);
+                if(xy.second==height-1){
+                    ver_scroll(1);
+                }
+                else{
+                    this->c.setCursor(xy.first,xy.second+1);
+                }
                 break;
             case 'q': 
                 refresh();			/* Print it on to the real screen */

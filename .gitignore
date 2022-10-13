@@ -49,3 +49,4 @@ build/
 .vimspector.json
 tmux.sh
 notes.txt
+test.txt

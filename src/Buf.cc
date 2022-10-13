@@ -2,8 +2,8 @@
 #include<vector>
 #include<string>
 
-#include "TeditException.h"
-#include "Buf.h"
+#include "../inc/TeditException.h"
+#include "../inc/Buf.h"
 
 
 Buf::Buf(const std::string& filepath):filepath(filepath){
