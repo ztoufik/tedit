@@ -64,9 +64,6 @@ void Tab::draw_slide(){
     c.reset();
 }
 
-void Tab::horz_scroll(int shift){
-
-}
 void Tab::ver_scroll(int shift){
     int linesCount=buf->get_content().size();
     int remainedLines=linesCount-slideIndex;
@@ -86,6 +83,7 @@ void Tab::ver_scroll(int shift){
 void Tab::loop(){
     draw_slide();
     int c;
+    int xc,yc;
     while (1) {
         const auto& xy=this->c.getCursor();
         c=getch();
@@ -97,10 +95,32 @@ void Tab::loop(){
                 ver_scroll(-1);
                 break;
             case KEY_RIGHT:
-                this->c.setCursor(xy.first+1,xy.second);
+                if(xy.first==width-1){
+                    xc=0;
+                    if(xy.second==height-1){
+                        ver_scroll(1);
+                    }else{
+                        yc=xy.second+1;
+                    }
+                }
+                else{
+                    xc=xy.first+1;yc=xy.second;
+                }
+                this->c.setCursor(xc,yc);
                 break;
             case KEY_LEFT:
-                this->c.setCursor(xy.first-1,xy.second);
+                if(xy.first==0){
+                    xc=width-1;
+                    if(xy.second==0){
+                        ver_scroll(-1);
+                    }else{
+                        yc=xy.second-1;
+                    }
+                }
+                else{
+                    xc=xy.first-1;yc=xy.second;
+                }
+                this->c.setCursor(xc,yc);
                 break;
             case KEY_UP:
                 if(xy.second==0){

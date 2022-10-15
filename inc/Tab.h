@@ -41,7 +41,6 @@ private:
 
   void ver_scroll(int );
   void reset( );
-  void horz_scroll(int );
   void draw_slide();
 };
 
