@@ -1,0 +1,7 @@
+Goals to learn:
+  software arch
+  conan package manager
+  fuzzing
+  TDD
+  github workflow/integraion with nvim
+Specs
