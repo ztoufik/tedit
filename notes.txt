@@ -1,5 +1,8 @@
 Goals to learn:
-  software arch & use tldraw/excalidraw for sw arch 
+  software arch & use  for sw arch:
+    use coding principle
+    use tldraw/excalidraw
+    use state machine thinking https://youtu.be/wgWwJSnhgDU?t=1115 
   conan package manager
   fuzzing
   TDD
