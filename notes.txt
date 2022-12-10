@@ -1,5 +1,5 @@
 Goals to learn:
-  software arch
+  software arch & use tldraw/excalidraw for sw arch 
   conan package manager
   fuzzing
   TDD
