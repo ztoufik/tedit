@@ -5,6 +5,6 @@ Goals to learn:
     use state machine thinking https://youtu.be/wgWwJSnhgDU?t=1115 
   conan package manager
   fuzzing
-  TDD
+  TDD https://www.youtube.com/watch?v=ln4WnxX-wrw
   github workflow/integraion with nvim
 Specs
