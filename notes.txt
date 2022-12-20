@@ -7,4 +7,5 @@ Goals to learn:
   fuzzing
   TDD https://www.youtube.com/watch?v=ln4WnxX-wrw
   github workflow/integraion with nvim
+  c++ modules (combine with sw arch)
 Specs
