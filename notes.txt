@@ -8,4 +8,6 @@ Goals to learn:
   TDD https://www.youtube.com/watch?v=ln4WnxX-wrw
   github workflow/integraion with nvim
   c++ modules (combine with sw arch)
+  static analyzer (warning,clang-tidy
+  Sanitizing in testing
 Specs
